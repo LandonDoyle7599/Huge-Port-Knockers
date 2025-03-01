@@ -15,11 +15,11 @@ class API:
             with self.lock:
                 data_copy = copy.deepcopy(self.data)
             for key, value in data_copy.items():
-                ports, failed = value
+                ports, failed, connected = value
                 converted_ports = []
                 for port, correct in ports:
                     converted_ports.append({"port" : port, "correct" : correct})
-                converted_data[key] = {"ip" : key, "ports" : converted_ports, "failed" : failed}
+                converted_data[key] = {"ip" : key, "ports" : converted_ports, "failed" : failed, "connected" : connected}
                 print(converted_data)
             return jsonify(converted_data)
             
