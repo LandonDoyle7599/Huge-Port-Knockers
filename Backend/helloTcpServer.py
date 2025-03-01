@@ -29,10 +29,12 @@ class HelloTcpServer():
                     # OK!
                     data = str.encode("Hello")
                     connection.sendall(data)
+                    connection.shutdown(self.tcpListenSock.SHUT_RDWR)
                     connection.close()
                     time.sleep(2)
                     self.port_knock_track.remove_ip(clientAddr)
                 else:
                     # How about NO
+                    connection.shutdown(self.tcpListenSock.SHUT_RDWR)
                     connection.close()
 
