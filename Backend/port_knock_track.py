@@ -21,6 +21,7 @@ class PortKnock():
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
             if req_port == 8080:
+                print("I promise I return this knocker")
                 return
             knock_index += 1
             if successful_attempt:
@@ -46,6 +47,7 @@ class PortKnock():
                     break
 
         with self.lock:
+            print("updating map")
             self.knock_map[src_ip] = (updated_tuples, not successful_attempt, False)
 
     def print_map(self):
@@ -92,7 +94,9 @@ class PortKnock():
         if ip not in self.knock_map:
             return
         port_tuples, failed, _  = self.knock_map.get(ip)
+        print("connection")
         with self.lock:
+            print("updating map")
             self.knock_map[ip] = (port_tuples, failed, True)
 
 
