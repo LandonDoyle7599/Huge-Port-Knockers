@@ -11,8 +11,16 @@ class API:
 
         @self.app.route('/data', methods=['GET'])
         def get_data():
+            converted_data = {}
             with self.lock:
-                return jsonify(self.data)
+                data_copy = copy.deepcopy(self.data)
+                # for ip, port_tup in self.data.items():
+            #         ports, failed = port_tup
+            #         for port, correct in ports:
+            #             ports.append({"port" : port, "correct" : correct})
+            #         converted_data[ip] = {{"ip" : ip},{"ports" : ports},{"failed" : failed}}
+                print(converted_data)
+            return jsonify(converted_data)
             
             
     def run(self):
