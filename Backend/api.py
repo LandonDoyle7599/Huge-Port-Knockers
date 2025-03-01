@@ -14,6 +14,20 @@ mock_data = [
             },
             {
                 'port': 80,
+                'correct': True
+            }
+        ],
+        'authenticated': False
+    },
+    {
+        'ip': "100.10.63.10",
+        'ports': [
+            {
+                'port': 22,
+                'correct': True
+            },
+            {
+                'port': 80,
                 'correct': False
             }
         ],
@@ -40,6 +54,28 @@ mock_data = [
             }
         ],
         'authenticated': True
+    },
+    {
+        'ip': "172.1.2.3",
+        'ports': [
+            {
+                'port': 22,
+                'correct': True
+            },
+            {
+                'port': 80,
+                'correct': True
+            },
+            {
+                'port': 443,
+                'correct': True
+            },
+            {
+                'port': 8080,
+                'correct': False
+            }
+        ],
+        'authenticated': False
     }
 ]
 
