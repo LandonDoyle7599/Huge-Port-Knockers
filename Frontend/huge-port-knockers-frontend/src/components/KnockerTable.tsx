@@ -84,7 +84,7 @@ export const KnockerTable = () => {
                 </tbody>
             </table>
 }
-            <Button onClick={handleClick}/>
+            <Button onClick={handleClick}>About this Project</Button>
         </div>
     )
 
