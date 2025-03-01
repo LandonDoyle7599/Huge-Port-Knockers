@@ -4,7 +4,7 @@ from port_knock_track import PortKnock
 
 class HelloTcpServer():
     def __init__(self, port_knock_track):
-        self.port_knock_track = port_krock_track
+        self.port_knock_track = port_knock_track
         self.tcpListenSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.serverAddr = (0.0.0.0, 8080)
         self.tcpListenSock.bind(self.serverAddr)
@@ -16,9 +16,13 @@ class HelloTcpServer():
             # check if this client address is allowed
             # TODO use mutex
             if self.port_knock_track.checkIpAllowed(clientAddr)
+                time.sleep(2)
+                self.port_knock_track.connection_established(clientAddr)
+
                 # OK!
                 connection.write("Hello")
                 connection.close()
+                self.port_knock_track.remove_ip(clientAddr)
             else
                 # How about NO
                 connection.close()

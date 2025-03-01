@@ -1,5 +1,6 @@
 import hmac
 import hashlib
+import threading
 
 class PortKnock():
     def __init__(self, knock_map, lock):
@@ -10,7 +11,7 @@ class PortKnock():
     def knock_attempt(self, src_ip, dst_port):
         if src_ip not in self.knock_map:
             self.create_port_sequence(src_ip)
-        port_tuples, _ = self.knock_map.get(src_ip)
+        port_tuples, _, _ = self.knock_map.get(src_ip)
 
         updated_tuples = []
         successful_attempt = False
@@ -37,7 +38,7 @@ class PortKnock():
                         updated_tuples.append((req_port, False))
                     break
         with self.lock:
-            self.knock_map[src_ip] = (updated_tuples, not successful_attempt)
+            self.knock_map[src_ip] = (updated_tuples, not successful_attempt, False)
 
     def print_map(self):
         print(self.knock_map)
@@ -51,14 +52,14 @@ class PortKnock():
             port_tups.append((port_num, False))
 
         with self.lock:
-            self.knock_map[src_ip] = (port_tups, True)
+            self.knock_map[src_ip] = (port_tups, True, False)
 
 
     def generate_ports(self, src_ip):
         ports = []
         for hash_secret in self.hash_secrets:
             hmac_object = hmac.new(hash_secret.encode(), src_ip.encode(), hashlib.sha256)
-            ports.append(int(hmac_object.hexdigest(), 16) % 65535)
+            ports.append((int(hmac_object.hexdigest(), 16) % (65535-4000)) + 4000)
         return ports
 
 
@@ -70,7 +71,7 @@ class PortKnock():
         return self.knock_map
 
     def checkIpAllowed(self, ip):
-        if src_ip not in self.knock_map:
+        if ip not in self.knock_map:
             return False;
         port_tuples, _ = self.knock_map.get(ip)
         knock_index = 0
@@ -82,3 +83,33 @@ class PortKnock():
         # at this point, all ports have been knocked,
         # fully authenticated
         return True
+
+    def connection_established(self, ip):
+        if ip not in self.knock_map:
+            return
+        port_tuples, failed, _  = self.knock_map.get(ip)
+        with self.lock:
+            self.knock_map[ip] = (port_tuples, failed, True)
+
+
+    def remove_ip(self, ip):
+        if ip not in self.knock_map:
+            return
+        del self.knock_map[ip]
+  
+
+if __name__ == '__main__':
+    #{'10.10.10.10': ([(5206, False), (48149, False), (20367, False), (9580, False)], False)}
+    Pn = PortKnock({},threading.Lock() )
+    Pn.knock_attempt('10.10.10.10', 5206)
+    Pn.print_map()
+    Pn.knock_attempt('10.10.10.10', 20)
+    Pn.print_map()
+    Pn.knock_attempt('10.10.10.10', 5206)
+    Pn.print_map()
+    Pn.knock_attempt('10.10.10.10', 48149)
+    Pn.knock_attempt('10.10.10.10', 20367)
+    Pn.print_map()
+    Pn.knock_attempt('10.10.10.10', 9580)
+    Pn.print_map()
+    print(Pn.checkIpAllowed('10.10.10.10'))
