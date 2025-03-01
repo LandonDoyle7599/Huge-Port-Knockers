@@ -2,8 +2,9 @@ import hmac
 import hashlib
 
 class PortKnock():
-    def __init__(self):
-        self.knock_map = {}
+    def __init__(self, knock_map, lock):
+        self.knock_map = knock_map
+        self.lock = lock
         self.hash_secrets = ['huge','port','knockers','secured','leggo']
 
     def knock_attempt(self, src_ip, dst_port):
@@ -35,8 +36,8 @@ class PortKnock():
                     for req_port, knocked in port_tuples:
                         updated_tuples.append((req_port, False))
                     break
-
-        self.knock_map[src_ip] = (updated_tuples, not successful_attempt)
+        with self.lock:
+            self.knock_map[src_ip] = (updated_tuples, not successful_attempt)
 
     def print_map(self):
         print(self.knock_map)
@@ -49,7 +50,8 @@ class PortKnock():
         for port_num in ports:
             port_tups.append((port_num, False))
 
-        self.knock_map[src_ip] = (port_tups, True)
+        with self.lock:
+            self.knock_map[src_ip] = (port_tups, True)
 
 
     def generate_ports(self, src_ip):
@@ -71,7 +73,7 @@ class PortKnock():
 
 if __name__ == '__main__':
     #{'10.10.10.10': ([(5206, False), (48149, False), (20367, False), (9580, False)], False)}
-    Pn = PortKnock()
+    Pn = PortKnock({})
     Pn.knock_attempt('10.10.10.10', 5206)
     Pn.print_map()
     Pn.knock_attempt('10.10.10.10', 20)
