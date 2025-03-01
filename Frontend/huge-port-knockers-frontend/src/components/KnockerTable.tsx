@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
-import { Knocker } from '../models';
+import { KnockerMap } from '../models';
 import { CircularProgress } from '@mui/material';
 
 
 export const KnockerTable = () => {
 
-    const [knockerMap, setKnockerMap] = useState<Map<string, Knocker>>(new Map());
+    const [knockerMap, setKnockerMap] = useState<KnockerMap>(new Map());
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const interval = setInterval(() => {
             fetch('http://localhost:5000/data')
                 .then(response => response.json())
                 .then(data => {
+                    if(data.length === 0) {
+                        setLoading(true);
+                        return;
+                    }
                 setKnockerMap(data);
                 setLoading(false);
           });
