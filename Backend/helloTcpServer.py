@@ -1,6 +1,7 @@
 import socket
 from port_knock_track import PortKnock
 import time
+import struct
 
 
 class HelloTcpServer():
