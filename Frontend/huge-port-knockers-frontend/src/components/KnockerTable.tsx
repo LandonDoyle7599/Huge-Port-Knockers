@@ -77,7 +77,7 @@ export const KnockerTable = () => {
                                 {!firstFourPortsCorrect(knocker.ip) && !knocker.failed && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'orange', fontSize:30 }}>Authenticating</td>}
                                 {knocker.connected && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'green', fontSize:30}}>Connected</td>}
                                 {knocker.failed && <td style={{ backgroundColor: 'red', borderRight: '2px solid white', borderBottom: '2px solid white', fontSize:30}}>Authentication Failed</td>}
-                                {firstFourPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
+                                {!knocker.failed && firstFourPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
                             </tr>
                         )
                     })}

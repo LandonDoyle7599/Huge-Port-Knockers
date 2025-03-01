@@ -12,8 +12,7 @@ class API:
         @self.app.route('/data', methods=['GET'])
         def get_data():
             converted_data = {}
-            with self.lock:
-                data_copy = copy.deepcopy(self.data)
+            data_copy = copy.deepcopy(self.data)
             for key, value in data_copy.items():
                 ports, failed, connected = value
                 converted_ports = []
