@@ -20,7 +20,9 @@ class HelloTcpServer():
                 connection, clientAddr = self.tcpListenSock.accept()
                 # check if this client address is allowed
                 # TODO use mutex
+                print("here!!!!")
                 if self.port_knock_track.checkIpAllowed(clientAddr):
+                    print("I belong here!!!!")
                     time.sleep(2)
                     self.port_knock_track.connection_established(clientAddr)
                     # OK!
