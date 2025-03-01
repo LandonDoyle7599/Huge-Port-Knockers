@@ -27,7 +27,8 @@ class HelloTcpServer():
                     time.sleep(2)
                     self.port_knock_track.connection_established(clientAddr)
                     # OK!
-                    connection.write("Hello")
+                    data = str.encode("Hello")
+                    connection.sendall(data)
                     connection.close()
                     time.sleep(2)
                     self.port_knock_track.remove_ip(clientAddr)
