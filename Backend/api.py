@@ -20,12 +20,12 @@ class API:
                 for port, correct in ports:
                     converted_ports.append({"port" : port, "correct" : correct})
                 converted_data[key] = {"ip" : key, "ports" : converted_ports, "failed" : failed, "connected" : connected}
-                print(converted_data)
+                #print(converted_data)
             return jsonify(converted_data)
             
             
     def run(self):
-        self.app.run(debug=True, port=5000, host='0.0.0.0')
+        self.app.run(debug=False, port=5000, host='0.0.0.0')
 
 if __name__ == '__main__':
     API()

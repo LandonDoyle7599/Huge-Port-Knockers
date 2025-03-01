@@ -31,14 +31,6 @@ export const KnockerTable = () => {
         return ports[0].correct && ports[1].correct && ports[2].correct && ports[3].correct;
     }
 
-    const fifthPortCorrect = (ip: string) => {
-        const ports = knockerValues.find(knocker => knocker.ip === ip)?.ports;
-        if (!ports) {
-            return false;
-        }
-        return ports[4].correct;
-    }
-
 
     return (
         <div style={{ height: 400, width: '100%' }}>
@@ -78,7 +70,7 @@ export const KnockerTable = () => {
                                 {!firstFourPortsCorrect(knocker.ip) && !knocker.failed && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'orange', fontSize:30 }}>Authenticating</td>}
                                 {knocker.connected && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'green', fontSize:30}}>Connected</td>}
                                 {knocker.failed && <td style={{ backgroundColor: 'red', borderRight: '2px solid white', borderBottom: '2px solid white', fontSize:30}}>Authentication Failed</td>}
-                                {firstFourPortsCorrect(knocker.ip) && !fifthPortCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
+                                {firstFourPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
                             </tr>
                         )
                     })}
