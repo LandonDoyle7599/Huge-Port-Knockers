@@ -14,17 +14,18 @@ class API:
             converted_data = {}
             with self.lock:
                 data_copy = copy.deepcopy(self.data)
-                # for ip, port_tup in self.data.items():
-            #         ports, failed = port_tup
-            #         for port, correct in ports:
-            #             ports.append({"port" : port, "correct" : correct})
-            #         converted_data[ip] = {{"ip" : ip},{"ports" : ports},{"failed" : failed}}
+            for key, value in data_copy.items():
+                ports, failed = value
+                converted_ports = []
+                for port, correct in ports:
+                    converted_ports.append({"port" : port, "correct" : correct})
+                converted_data[key] = {"ip" : key, "ports" : converted_ports, "failed" : failed}
                 print(converted_data)
             return jsonify(converted_data)
             
             
     def run(self):
-        self.app.run(port=5000, host="0.0.0.0", debug=True)
+        self.app.run(debug=True, port=5000, host='0.0.0.0')
 
 if __name__ == '__main__':
     API()
