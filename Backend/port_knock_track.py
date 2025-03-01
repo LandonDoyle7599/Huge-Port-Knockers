@@ -21,7 +21,7 @@ class PortKnock():
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
             if req_port == 8080:
-                break
+                return
             knock_index += 1
             if successful_attempt:
                 #finish updating the udpated tuples
