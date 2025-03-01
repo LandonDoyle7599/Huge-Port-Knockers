@@ -78,7 +78,6 @@ class PortKnock():
 
     def checkIpAllowed(self, tupthing):
         print("look right below here")
-        print(ip)
         ip, _ = tupthing
         if ip not in self.knock_map:
             print("don't hurt me plz")
