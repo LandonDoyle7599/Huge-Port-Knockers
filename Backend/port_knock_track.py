@@ -77,6 +77,8 @@ class PortKnock():
         return self.knock_map
 
     def checkIpAllowed(self, ip):
+        print("look right below here")
+        print(ip)
         if ip not in self.knock_map:
             print("don't hurt me plz")
             return False;
