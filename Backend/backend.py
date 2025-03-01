@@ -9,10 +9,13 @@ class Backend:
         self.data = {}
         self.api = API(self.data, self.lock)
         self.port_knock = PortKnock(self.data, self.lock)
+        self.helloServer = HelloTcpServer()
 
         # Start port-knock thread for processing knock attempts
         self.thread_two = threading.Thread(target=self.port_knock_run)
         self.thread_two.start()
+        self.thread_server = threading.Thread(target=self.helloServer.runServer)
+        self.thread_server.start()
 
     def port_knock_run(self):
         self.port_knock.knock_attempt('10.10.10.10', 5206)

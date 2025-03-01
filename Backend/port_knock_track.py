@@ -68,4 +68,17 @@ class PortKnock():
 
     def get_knock_map(self):
         return self.knock_map
-        
+
+    def checkIpAllowed(self, ip):
+        if src_ip not in self.knock_map:
+            return False;
+        port_tuples, _ = self.knock_map.get(ip)
+        knock_index = 0
+        #loop through to see where we are at in the sequence
+        for req_port, knocked in port_tuples:
+            knock_index += 1
+            if knocked == False:
+                return False;
+        # at this point, all ports have been knocked,
+        # fully authenticated
+        return True
