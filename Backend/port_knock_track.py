@@ -38,8 +38,6 @@ class PortKnock():
                 if(dst_port == req_port):
                     updated_tuples.append((req_port, True))
                     successful_attempt = True
-                    if(knock_index == len(port_tuples)):
-                        self.open_connection_port(src_ip)
                 else:
                     #incorrect sequence, reset
                     updated_tuples = []
