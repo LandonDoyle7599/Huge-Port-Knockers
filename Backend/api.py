@@ -1,6 +1,11 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 import copy
+import logging
+from werkzeug.serving import WSGIRequestHandler
+
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 class API:
     def __init__(self, data, lock):
