@@ -1,8 +1,11 @@
+#!/usr/bin/python3
+
 import threading
 import time
 from api import API
 from port_knock_track import PortKnock
 from helloTcpServer import HelloTcpServer
+from hello_world import ebpf
 
 class Backend:
     def __init__(self):
@@ -22,28 +25,29 @@ class Backend:
 
     def port_knock_run(self):
         while not self.stop_event.is_set():
-            time.sleep(2)
-            self.port_knock.knock_attempt('10.10.10.10', 5206)
-            time.sleep(2)
-            self.port_knock.print_map()
-            self.port_knock.knock_attempt('10.10.10.10', 20)
-            time.sleep(2)
-            self.port_knock.print_map()
-            self.port_knock.knock_attempt('10.10.10.10', 5206)
-            time.sleep(2)
-            self.port_knock.print_map()
-            self.port_knock.knock_attempt('10.10.10.10', 48149)
-            time.sleep(2)
-            self.port_knock.knock_attempt('10.10.10.10', 20367)
-            time.sleep(2)
-            self.port_knock.print_map()
-            self.port_knock.knock_attempt('10.10.10.10', 9580)
-            time.sleep(2)
-            self.port_knock.print_map()
-            while True:
-                with self.lock:
-                    self.port_knock.print_map()
-                time.sleep(5)
+            #time.sleep(2)
+            #self.port_knock.knock_attempt('10.10.10.10', 5206)
+            #time.sleep(2)
+            #self.port_knock.print_map()
+            #self.port_knock.knock_attempt('10.10.10.10', 20)
+            #time.sleep(2)
+            #self.port_knock.print_map()
+            #self.port_knock.knock_attempt('10.10.10.10', 5206)
+            #time.sleep(2)
+            #self.port_knock.print_map()
+            #self.port_knock.knock_attempt('10.10.10.10', 48149)
+            #time.sleep(2)
+            #self.port_knock.knock_attempt('10.10.10.10', 20367)
+            #time.sleep(2)
+            #self.port_knock.print_map()
+            #self.port_knock.knock_attempt('10.10.10.10', 9580)
+            #time.sleep(2)
+            #self.port_knock.print_map()
+            ebpf(self.port_knock)
+            #while True:
+            #    with self.lock:
+            #        self.port_knock.print_map()
+            #    time.sleep(5)
 
     def shutdown(self):
         self.stop_event.set()

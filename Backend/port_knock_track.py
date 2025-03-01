@@ -2,11 +2,13 @@ import hmac
 import hashlib
 import threading
 
+APP_PORT = 22
+
 class PortKnock():
     def __init__(self, knock_map, lock):
         self.knock_map = knock_map
         self.lock = lock
-        self.hash_secrets = ['huge','port','knockers','secured','leggo']
+        self.hash_secrets = ['huge','port','knockers','secured']
 
     def knock_attempt(self, src_ip, dst_port):
         if src_ip not in self.knock_map:
@@ -28,9 +30,8 @@ class PortKnock():
                 if(dst_port == req_port):
                     updated_tuples.append((req_port, True))
                     successful_attempt = True
-                    if(knock_index == len(port_tuples)-1):
-                        port_to_open, _ = port_tuples[-1]
-                        self.open_connection_port(src_ip, port_to_open)
+                    if(knock_index == len(port_tuples)):
+                        self.open_connection_port(src_ip)
                 else:
                     #incorrect sequence, reset
                     updated_tuples = []
@@ -63,7 +64,8 @@ class PortKnock():
         return ports
 
 
-    def open_connection_port(self, ip, port):
+    def open_connection_port(self, ip):
+        port = APP_PORT
         print(f"opening port {port} for {ip}")
 
 
@@ -98,18 +100,18 @@ class PortKnock():
         del self.knock_map[ip]
   
 
-if __name__ == '__main__':
+#if __name__ == '__main__':
     #{'10.10.10.10': ([(5206, False), (48149, False), (20367, False), (9580, False)], False)}
-    Pn = PortKnock({},threading.Lock() )
-    Pn.knock_attempt('10.10.10.10', 5206)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 20)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 5206)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 48149)
-    Pn.knock_attempt('10.10.10.10', 20367)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 9580)
-    Pn.print_map()
-    print(Pn.checkIpAllowed('10.10.10.10'))
+    #Pn = PortKnock({},threading.Lock() )
+    #Pn.knock_attempt('10.10.10.10', 5206)
+    #Pn.print_map()
+    #Pn.knock_attempt('10.10.10.10', 20)
+    #Pn.print_map()
+    #Pn.knock_attempt('10.10.10.10', 5206)
+    #Pn.print_map()
+    #Pn.knock_attempt('10.10.10.10', 48149)
+    #Pn.knock_attempt('10.10.10.10', 20367)
+    #Pn.print_map()
+    #Pn.knock_attempt('10.10.10.10', 9580)
+    #Pn.print_map()
+    #print(Pn.checkIpAllowed('10.10.10.10'))
