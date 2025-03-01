@@ -9,7 +9,7 @@ export const KnockerTable = () => {
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://localhost:5000/data')
+            fetch('http://144.39.110.207:5000/data')
                 .then(response => response.json())
                 .then((data) => {
                     console.log(Object.values(data)); // Extracts the values from the object
