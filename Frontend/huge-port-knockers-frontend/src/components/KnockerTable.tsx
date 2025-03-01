@@ -1,32 +1,30 @@
 import { useEffect, useState } from 'react';
-import { KnockerMap } from '../models';
+import { Knocker } from '../models';
 import { CircularProgress } from '@mui/material';
 
 
 export const KnockerTable = () => {
 
-    const [knockerMap, setKnockerMap] = useState<KnockerMap>(new Map());
+    const [knockerValues, setKnockerValues] = useState<Knocker[]>([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const interval = setInterval(() => {
             fetch('http://localhost:5000/data')
                 .then(response => response.json())
-                .then(data => {
-                    if(data.length === 0) {
-                        setLoading(true);
-                        return;
-                    }
-                setKnockerMap(data);
-                setLoading(false);
-          });
+                .then((data) => {
+                    console.log(Object.values(data)); // Extracts the values from the object
+                    setKnockerValues(Object.values(data));
+                    setLoading(false);
+                })
+                .catch(error => console.error("Error fetching data:", error));
         }, 2000);
         return () => clearInterval(interval);
     }, []);
-
+    
     const headers = ['IP Address', 'Ports Knocked', 'Status'];
 
     const firstFourPortsCorrect = (ip: string) => {
-        const ports = knockerMap.get(ip)?.ports;
+        const ports = knockerValues.find(knocker => knocker.ip === ip)?.ports;
         if (!ports) {
             return false;
         }
@@ -34,7 +32,7 @@ export const KnockerTable = () => {
     }
 
     const fifthPortCorrect = (ip: string) => {
-        const ports = knockerMap.get(ip)?.ports;
+        const ports = knockerValues.find(knocker => knocker.ip === ip)?.ports;
         if (!ports) {
             return false;
         }
@@ -57,7 +55,8 @@ export const KnockerTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {[...knockerMap.values()].map((knocker, index) => {
+                    {/* avoid knockermap.values is not a function error */}
+                    {knockerValues.map((knocker, index) => {
                         return (
                             <tr key={index}>
                                 <td style={{fontSize:30, borderRight: "2px solid white", borderBottom: '2px solid white'}}>{knocker.ip}</td>

@@ -1,9 +1,9 @@
 
 export type KnockerMap = Map<string, Knocker>;
 export interface Knocker {
-    ports: Port[];
     ip: string;
     failed: boolean;
+    ports: Port[];
 }
 
 export interface Port {
