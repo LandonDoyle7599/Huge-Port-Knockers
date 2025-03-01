@@ -51,9 +51,7 @@ int parse_packet(struct xdp_md *xdp) {
   uint16_t dest_port = ntohs(tcp.dest);
   struct data_t data = {.ip_addr = ip_src, .port = dest_port};
 
-  bpf_trace_printk("%d", dest_port);
-
-  port_knocked.push(&data, sizeof(data));
+  port_knocked.push(&data, BPF_EXIST);
 
   return XDP_PASS;
 }

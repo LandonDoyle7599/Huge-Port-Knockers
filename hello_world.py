@@ -2,8 +2,7 @@
 
 from time import sleep
 from bcc import BPF
-from bcc.utils import printb
-
+import socket, struct
 
 # Loads the c file into the BPF program
 bpf = BPF(src_file="network.c")
@@ -23,11 +22,11 @@ queue = bpf["port_knocked"]
 # Reads results from BPF programs (User Space)
 while True:
     try:
-        (task, pid, cpu, flags, ts, msg) = bpf.trace_fields()
-        print(queue.pop())
+        data = queue.pop()
+        ipv4 = socket.inet_ntoa(struct.pack('!L', data.ip_addr))
+        print("IP: {}, PORT: {}".format(ipv4, data.port))
     except KeyError as e:
-        print(f"Queue is empty")
+        continue
     except KeyboardInterrupt:
         exit()
-    printb(b"%-18.9f %-16s %-6d %s" % (ts, task, pid, msg))
     sleep(0.5)
