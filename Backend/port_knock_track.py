@@ -26,6 +26,11 @@ class PortKnock():
             if successful_attempt:
                 #finish updating the udpated tuples
                 updated_tuples.append((req_port, False))
+            elif good_knock_count == 4:
+                updated_tuples = []
+                for req_port, knocked in port_tuples:
+                    updated_tuples.append((req_port, False))
+                break
             elif knocked:
                 updated_tuples.append((req_port, True))
                 good_knock_count += 1
@@ -41,11 +46,6 @@ class PortKnock():
                     for req_port, knocked in port_tuples:
                         updated_tuples.append((req_port, False))
                     break
-           if good_knock_count == 4:
-               updated_tuples = []
-               for req_port, knocked in port_tuples:
-                   updated_tuples.append((req_port, False))
-               break
 
         with self.lock:
             self.knock_map[src_ip] = (updated_tuples, not successful_attempt, False)
