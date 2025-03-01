@@ -17,7 +17,7 @@ mock_data = [
                 'correct': True
             }
         ],
-        'authenticated': False
+        'failed': False
     },
     {
         'ip': "100.10.63.10",
@@ -31,7 +31,7 @@ mock_data = [
                 'correct': False
             }
         ],
-        'authenticated': False
+        'failed': False
     },
     {
         'ip': "172.1.2.1",
@@ -53,7 +53,7 @@ mock_data = [
                 'correct': True
             }
         ],
-        'authenticated': True
+        'failed': True
     },
     {
         'ip': "172.1.2.3",
@@ -75,7 +75,7 @@ mock_data = [
                 'correct': False
             }
         ],
-        'authenticated': False
+        'failed': False
     }
 ]
 

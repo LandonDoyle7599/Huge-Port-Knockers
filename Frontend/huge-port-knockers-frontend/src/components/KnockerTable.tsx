@@ -22,10 +22,33 @@ export const KnockerTable = () => {
     const headers = ['IP Address', 'Ports Knocked', 'Status'];
 
     const allPortsCorrect = (ip: string) => {
+        // check if the first four ports are true
         const knocker = data.find(knocker => knocker.ip === ip);
-        if (!knocker) return false;
-        return knocker.ports.every(port => port.correct);
+        if (!knocker) {
+            return false;
+        }
+        const ports = knocker.ports;
+        for (let i = 0; i < 4; i++) {
+            if (!ports[i].correct) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    const connectedToPort = (ip: string) => {
+        const knocker = data.find(knocker => knocker.ip === ip);
+        if (!knocker) {
+            return false;
+        }
+        const ports = knocker.ports;
+        // check if fifth port is true
+        if (ports.length < 5) {
+            return false;
+        }
+        return ports[4].correct;
+    }
+
 
     return (
         <div style={{ height: 400, width: '100%' }}>
@@ -61,9 +84,10 @@ export const KnockerTable = () => {
                                         </td>}
                                     </ul>
                                 </td>
-                                {knocker.ports.length === 4 && allPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'Green', fontSize:30 }}>Authenticated</td>}
-                                {knocker.ports.length < 4 && allPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticating</td>}
-                                {!allPortsCorrect(knocker.ip) && <td style={{ backgroundColor: 'red', borderRight: '2px solid white', borderBottom: '2px solid white', fontSize:30}}>Authentication Failed</td>}
+                                {!allPortsCorrect(knocker.ip) && !knocker.failed && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'orange', fontSize:30 }}>Authenticating</td>}
+                                {allPortsCorrect(knocker.ip) && connectedToPort(knocker.ip) && allPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'green', fontSize:30}}>Connected to port {knocker.ports[4].port}</td>}
+                                {knocker.failed && <td style={{ backgroundColor: 'red', borderRight: '2px solid white', borderBottom: '2px solid white', fontSize:30}}>Authentication Failed</td>}
+                                {allPortsCorrect(knocker.ip) && !connectedToPort(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
                             </tr>
                         )
                     })}
