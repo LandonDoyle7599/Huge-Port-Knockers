@@ -11,7 +11,7 @@ class HelloTcpServer():
         self.tcpListenSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)  # Add this line
-        self.serverAddr = ('127.0.0.1', 8080)
+        self.serverAddr = ('0.0.0.0', 8080)
         self.tcpListenSock.bind(self.serverAddr)
             
     def runServer(self):
