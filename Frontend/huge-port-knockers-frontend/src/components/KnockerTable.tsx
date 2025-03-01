@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Knocker } from '../models';
-import { CircularProgress } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 export const KnockerTable = () => {
@@ -20,7 +21,11 @@ export const KnockerTable = () => {
         }, 2000);
         return () => clearInterval(interval);
     }, []);
-    
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/about');
+    }
     const headers = ['IP Address', 'Ports Knocked', 'Status'];
 
     const firstFourPortsCorrect = (ip: string) => {
@@ -30,6 +35,8 @@ export const KnockerTable = () => {
         }
         return ports[0].correct && ports[1].correct && ports[2].correct && ports[3].correct;
     }
+
+    
 
 
     return (
@@ -77,6 +84,7 @@ export const KnockerTable = () => {
                 </tbody>
             </table>
 }
+            <Button onClick={handleClick}/>
         </div>
     )
 
