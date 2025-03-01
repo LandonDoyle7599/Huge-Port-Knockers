@@ -20,7 +20,7 @@ class PortKnock():
         good_knock_count = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
-            if req_port == 8080:
+            if dst_port == 8080:
                 print("I promise I return this knocker")
                 return
             knock_index += 1
