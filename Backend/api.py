@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
-
+import copy
 
 class API:
     def __init__(self, data, lock):
@@ -11,8 +11,10 @@ class API:
 
         @self.app.route('/data', methods=['GET'])
         def get_data():
+            data_copy = {}
             with self.lock:
-                return jsonify(self.data)
+                data_copy = copy.deepcopy(self.data)
+            
             
     def run(self):
         self.app.run(port=5000, host="0.0.0.0", debug=True)
