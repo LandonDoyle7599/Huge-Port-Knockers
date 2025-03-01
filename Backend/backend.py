@@ -11,6 +11,7 @@ class Backend:
         self.port_knock = PortKnock(self.data, self.lock)
 
         # Start port-knock thread for processing knock attempts
+    
         self.thread_two = threading.Thread(target=self.port_knock_run)
         self.thread_two.start()
 
@@ -31,9 +32,12 @@ class Backend:
                 self.port_knock.print_map()
             time.sleep(5)
 
+    def __del__(self):
+        self.thread_two.join()
+
     
 if __name__ == '__main__':
     backend = Backend()
-    time.sleep(30)
+    time.sleep(2)
     # Now the API will run in the main thread
     backend.api.run()
