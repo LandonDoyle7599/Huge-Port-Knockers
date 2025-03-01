@@ -5,14 +5,14 @@ import { CircularProgress } from '@mui/material';
 
 export const KnockerTable = () => {
 
-    const [data, setData] = useState<Knocker[]>([]);
+    const [knockerMap, setKnockerMap] = useState<Map<string, Knocker>>(new Map());
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const interval = setInterval(() => {
             fetch('http://localhost:5000/data')
                 .then(response => response.json())
                 .then(data => {
-                setData(data);
+                setKnockerMap(data);
                 setLoading(false);
           });
         }, 200);
@@ -21,29 +21,17 @@ export const KnockerTable = () => {
 
     const headers = ['IP Address', 'Ports Knocked', 'Status'];
 
-    const allPortsCorrect = (ip: string) => {
-        // check if the first four ports are true
-        const knocker = data.find(knocker => knocker.ip === ip);
-        if (!knocker) {
+    const firstFourPortsCorrect = (ip: string) => {
+        const ports = knockerMap.get(ip)?.ports;
+        if (!ports) {
             return false;
         }
-        const ports = knocker.ports;
-        for (let i = 0; i < 4; i++) {
-            if (!ports[i].correct) {
-                return false;
-            }
-        }
-        return true;
+        return ports[0].correct && ports[1].correct && ports[2].correct && ports[3].correct;
     }
 
-    const connectedToPort = (ip: string) => {
-        const knocker = data.find(knocker => knocker.ip === ip);
-        if (!knocker) {
-            return false;
-        }
-        const ports = knocker.ports;
-        // check if fifth port is true
-        if (ports.length < 5) {
+    const fifthPortCorrect = (ip: string) => {
+        const ports = knockerMap.get(ip)?.ports;
+        if (!ports) {
             return false;
         }
         return ports[4].correct;
@@ -65,7 +53,7 @@ export const KnockerTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.length > 0 && data.map((knocker, index) => {
+                    {[...knockerMap.values()].map((knocker, index) => {
                         return (
                             <tr key={index}>
                                 <td style={{fontSize:30, borderRight: "2px solid white", borderBottom: '2px solid white'}}>{knocker.ip}</td>
@@ -78,16 +66,16 @@ export const KnockerTable = () => {
                                                 </td>
                                             )
                                         })}
-                                        {knocker.ports.length < 4 && allPortsCorrect(knocker.ip) && 
+                                        {knocker.ports.length < 4 && firstFourPortsCorrect(knocker.ip) && 
                                         <td>
                                             <CircularProgress/> 
                                         </td>}
                                     </ul>
                                 </td>
-                                {!allPortsCorrect(knocker.ip) && !knocker.failed && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'orange', fontSize:30 }}>Authenticating</td>}
-                                {allPortsCorrect(knocker.ip) && connectedToPort(knocker.ip) && allPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'green', fontSize:30}}>Connected to port {knocker.ports[4].port}</td>}
+                                {!firstFourPortsCorrect(knocker.ip) && !knocker.failed && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'orange', fontSize:30 }}>Authenticating</td>}
+                                {fifthPortCorrect(knocker.ip) && firstFourPortsCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'green', fontSize:30}}>Connected to port {knocker.ports[4].port}</td>}
                                 {knocker.failed && <td style={{ backgroundColor: 'red', borderRight: '2px solid white', borderBottom: '2px solid white', fontSize:30}}>Authentication Failed</td>}
-                                {allPortsCorrect(knocker.ip) && !connectedToPort(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
+                                {firstFourPortsCorrect(knocker.ip) && !fifthPortCorrect(knocker.ip) && <td style={{ borderBottom: '2px solid white', borderRight: '2px solid white', backgroundColor: 'blue', fontSize:30}}>Authenticated</td>}
                             </tr>
                         )
                     })}

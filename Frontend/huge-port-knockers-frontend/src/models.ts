@@ -1,12 +1,11 @@
+
 export interface Knocker {
-    
+    ports: Port[];
+    ip: string;
+    failed: boolean;
 }
 
-export interface KnockerTableModel {
-    knockers: Knocker[];
-}
-
-export interface KnockerPort {
+export interface Port {
     port: number;
     correct: boolean;
 }
