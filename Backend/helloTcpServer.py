@@ -12,7 +12,6 @@ class HelloTcpServer():
         self.tcpListenSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)  # Add this line
-        self.tcpListenSock.setsockopt(socket.SO_LINGER, struct.pack('ii', l_onoff, l_linger))
         self.serverAddr = ('0.0.0.0', 8080)
         self.tcpListenSock.bind(self.serverAddr)
             
@@ -21,6 +20,9 @@ class HelloTcpServer():
             self.tcpListenSock.listen(1)
             while True:
                 connection, clientAddr = self.tcpListenSock.accept()
+                l_onoff = 1
+                l_linger = 0
+                connection.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, struct.pack('ii', l_onoff, l_linger))
                 # check if this client address is allowed
                 # TODO use mutex
                 print("here!!!!")
