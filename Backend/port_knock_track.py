@@ -79,7 +79,7 @@ class PortKnock():
     def checkIpAllowed(self, ip):
         if ip not in self.knock_map:
             return False;
-        port_tuples, _ = self.knock_map.get(ip)
+        port_tuples, _, _ = self.knock_map.get(ip)
         knock_index = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
