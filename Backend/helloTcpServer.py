@@ -6,7 +6,10 @@ class HelloTcpServer():
     def __init__(self, port_knock_track, stop_event):
         self.port_knock_track = port_knock_track
         self.stop_event = stop_event
+        option = 1
         self.tcpListenSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.tcpListenSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)  # Add this line
         self.serverAddr = ('127.0.0.1', 8080)
         self.tcpListenSock.bind(self.serverAddr)
             
