@@ -1,7 +1,5 @@
 export interface Knocker {
-    ip: string;
-    ports: KnockerPort[];
-    failed: boolean;
+    
 }
 
 export interface KnockerTableModel {

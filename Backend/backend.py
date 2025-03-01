@@ -15,6 +15,23 @@ class Backend:
         self.thread_two.start()
 
     def port_knock_run(self):
+        time.sleep(5)
+        self.port_knock.knock_attempt('10.10.10.10', 5206)
+        self.port_knock.print_map()
+        time.sleep(2)
+        self.port_knock.knock_attempt('10.10.10.10', 20)
+        self.port_knock.print_map()
+        time.sleep(2)
+        self.port_knock.knock_attempt('10.10.10.10', 5206)
+        self.port_knock.print_map()
+        time.sleep(2)
+        self.port_knock.knock_attempt('10.10.10.10', 48149)
+        self.port_knock.knock_attempt('10.10.10.10', 20367)
+        self.port_knock.print_map()
+        time.sleep(2)
+        self.port_knock.knock_attempt('10.10.10.10', 9580)
+        self.port_knock.print_map()
+        time.sleep(2)
         while True:
             with self.lock:
                 self.port_knock.print_map()

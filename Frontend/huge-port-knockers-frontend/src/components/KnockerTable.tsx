@@ -65,7 +65,7 @@ export const KnockerTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((knocker, index) => {
+                    {data.length > 0 && data.map((knocker, index) => {
                         return (
                             <tr key={index}>
                                 <td style={{fontSize:30, borderRight: "2px solid white", borderBottom: '2px solid white'}}>{knocker.ip}</td>

@@ -69,20 +69,3 @@ class PortKnock():
     def get_knock_map(self):
         return self.knock_map
         
-
-
-if __name__ == '__main__':
-    #{'10.10.10.10': ([(5206, False), (48149, False), (20367, False), (9580, False)], False)}
-    Pn = PortKnock({})
-    Pn.knock_attempt('10.10.10.10', 5206)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 20)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 5206)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 48149)
-    Pn.knock_attempt('10.10.10.10', 20367)
-    Pn.print_map()
-    Pn.knock_attempt('10.10.10.10', 9580)
-    Pn.print_map()
-
