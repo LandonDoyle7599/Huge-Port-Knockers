@@ -4,6 +4,7 @@ export interface Knocker {
     ip: string;
     failed: boolean;
     ports: Port[];
+    connected: boolean;
 }
 
 export interface Port {

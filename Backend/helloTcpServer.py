@@ -10,7 +10,7 @@ class HelloTcpServer():
         self.tcpListenSock.bind(self.serverAddr)
             
     def runServer
-        self.tcpListenSock.listen(1);
+        self.tcpListenSock.listen(1)
         while True:
             connection, clientAddr = self.tcpListenSock.accept()
             # check if this client address is allowed
