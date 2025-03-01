@@ -2,7 +2,6 @@ import hmac
 import hashlib
 import threading
 
-APP_PORT = 22
 
 class PortKnock():
     def __init__(self, knock_map, lock):
@@ -18,14 +17,18 @@ class PortKnock():
         updated_tuples = []
         successful_attempt = False
         knock_index = 0
+        good_knock_count = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
+            if req_port == 8080:
+                continue
             knock_index += 1
             if successful_attempt:
                 #finish updating the udpated tuples
                 updated_tuples.append((req_port, False))
             elif knocked:
                 updated_tuples.append((req_port, True))
+                good_knock_count += 1
             else:
                 if(dst_port == req_port):
                     updated_tuples.append((req_port, True))
@@ -38,6 +41,12 @@ class PortKnock():
                     for req_port, knocked in port_tuples:
                         updated_tuples.append((req_port, False))
                     break
+           if good_knock_count == 4:
+               updated_tuples = []
+               for req_port, knocked in port_tuples:
+                   updated_tuples.append((req_port, False))
+               break
+
         with self.lock:
             self.knock_map[src_ip] = (updated_tuples, not successful_attempt, False)
 
@@ -62,11 +71,6 @@ class PortKnock():
             hmac_object = hmac.new(hash_secret.encode(), src_ip.encode(), hashlib.sha256)
             ports.append((int(hmac_object.hexdigest(), 16) % (65535-4000)) + 4000)
         return ports
-
-
-    def open_connection_port(self, ip):
-        port = APP_PORT
-        print(f"opening port {port} for {ip}")
 
 
     def get_knock_map(self):
