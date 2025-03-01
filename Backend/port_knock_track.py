@@ -96,7 +96,8 @@ class PortKnock():
         print("huge knockerz")
         return True
 
-    def connection_established(self, ip):
+    def connection_established(self, tupthing):
+        ip, _ = tupthing
         if ip not in self.knock_map:
             return
         port_tuples, failed, _  = self.knock_map.get(ip)
