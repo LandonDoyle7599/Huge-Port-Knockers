@@ -15,11 +15,11 @@ export const KnockerTable = () => {
                 setData(data);
                 setLoading(false);
           });
-        }, 500);
+        }, 200);
         return () => clearInterval(interval);
     }, []);
 
-    const headers = ['IP Address', 'Ports Knocked', 'Authenticated'];
+    const headers = ['IP Address', 'Ports Knocked', 'Status'];
 
     const allPortsCorrect = (ip: string) => {
         const knocker = data.find(knocker => knocker.ip === ip);
