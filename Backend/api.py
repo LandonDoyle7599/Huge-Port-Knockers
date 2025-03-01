@@ -11,9 +11,8 @@ class API:
 
         @self.app.route('/data', methods=['GET'])
         def get_data():
-            data_copy = {}
             with self.lock:
-                data_copy = copy.deepcopy(self.data)
+                return jsonify(self.data)
             
             
     def run(self):
