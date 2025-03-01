@@ -106,7 +106,8 @@ class PortKnock():
             self.knock_map[ip] = (port_tuples, failed, True)
 
 
-    def remove_ip(self, ip):
+    def remove_ip(self, tupthing):
+        ip, _ = tupthing
         if ip not in self.knock_map:
             return
         del self.knock_map[ip]
