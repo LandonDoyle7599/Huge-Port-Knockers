@@ -20,8 +20,7 @@ class PortKnock():
         good_knock_count = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
-            if dst_port == 8080:
-                print("I promise I return this knocker")
+            if dst_port == 8080 or dst_port == 5000:
                 return
             knock_index += 1
             if successful_attempt:
@@ -47,7 +46,6 @@ class PortKnock():
                     break
 
         with self.lock:
-            print("updating map")
             self.knock_map[src_ip] = (updated_tuples, not successful_attempt, False)
 
     def print_map(self):
@@ -77,22 +75,18 @@ class PortKnock():
         return self.knock_map
 
     def checkIpAllowed(self, tupthing):
-        print("look right below here")
         ip, _ = tupthing
         if ip not in self.knock_map:
-            print("don't hurt me plz")
             return False;
         port_tuples, _, _ = self.knock_map.get(ip)
         knock_index = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
-            print("knockerz")
             knock_index += 1
             if knocked == False:
                 return False;
         # at this point, all ports have been knocked,
         # fully authenticated
-        print("huge knockerz")
         return True
 
     def connection_established(self, tupthing):
@@ -100,9 +94,7 @@ class PortKnock():
         if ip not in self.knock_map:
             return
         port_tuples, failed, _  = self.knock_map.get(ip)
-        print("connection")
         with self.lock:
-            print("updating map")
             self.knock_map[ip] = (port_tuples, failed, True)
 
 
