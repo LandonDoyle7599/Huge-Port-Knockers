@@ -78,16 +78,19 @@ class PortKnock():
 
     def checkIpAllowed(self, ip):
         if ip not in self.knock_map:
+            print("don't hurt me plz")
             return False;
         port_tuples, _, _ = self.knock_map.get(ip)
         knock_index = 0
         #loop through to see where we are at in the sequence
         for req_port, knocked in port_tuples:
+            print("knockerz")
             knock_index += 1
             if knocked == False:
                 return False;
         # at this point, all ports have been knocked,
         # fully authenticated
+        print("huge knockerz")
         return True
 
     def connection_established(self, ip):
