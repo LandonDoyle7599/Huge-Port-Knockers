@@ -15,7 +15,7 @@ export const KnockerTable = () => {
                 setData(data);
                 setLoading(false);
           });
-        }, 500);
+        }, 200);
         return () => clearInterval(interval);
     }, []);
 
