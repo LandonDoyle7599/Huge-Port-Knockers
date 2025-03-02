@@ -1,4 +1,4 @@
-# Huge-Port-Knockers
+# Port-Knockers
 This project uses eBPF to implement a demonstration of port knocking authentication.
 
 ## Instructions to run:
