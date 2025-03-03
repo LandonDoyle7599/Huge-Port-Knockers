@@ -33,6 +33,7 @@ class HelloTcpServer():
                     # OK!
                     data = str.encode("Knock knock.\nWho’s there?\nA broken doorbell.\nA broken doorbell who?\n...\n(You stay silent.)\n\nFriend: Uh… hello?\nYou: ...\nFriend: Are you still there?\nYou: ...\nFriend: (Getting frustrated) Fine. *A BROKEN DOORBELL, WHO?!*\nYou: Oh! Sorry, I was just demonstrating what a broken doorbell does. Anyway—knock knock.\nFriend: (Sighs) Who’s there?\nYou: Cow says.\nFriend: Cow says who?\nYou: No, cow says “moo.” But—knock knock.\nFriend: (Groaning) Who’s there?\nYou: Control freak—okay, now YOU say “control freak who?”\nFriend: Control fr—\nYou: TOO SLOW! But—knock knock.\nFriend: (Resigned) Who’s there?\nYou: Déjà vu.\nFriend: Déjà vu who?\nYou: Knock knock.\nFriend: Who’s there?\nYou: Déjà vu.\nFriend: DEJA VU WHO?!\nYou: Knock knock.\nFriend: Who’s there?\nYou: A little old lady.\nFriend: A little old lady who?\nYou: Wow, I didn’t know you could yodel!\nFriend: … I hate you.\nYou: Knock knock.\nFriend: NO.")
                     connection.sendall(data)
+                    time.sleep(1)
                     connection.shutdown(socket.SHUT_RDWR)
                     connection.close()
                     time.sleep(2)
