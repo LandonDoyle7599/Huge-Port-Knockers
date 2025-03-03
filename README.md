@@ -7,11 +7,12 @@ with latest nodejs, npm, react, and vite packages \
 npm run dev -- --host
 
 ### Backend:
-python3 -m venv .venv \
-. .venv/bin/activate \
-pip install Flask \
-pip install flask_cors \
-python3 api.py 
+If it is your first time running the backend \
+cp .env.example .env \
+Modify the .env file to have the ip of the system hosting the backend \
+sudo apt install python3-flask \
+sudo apt install python3-flask-cors \
+sudo ./backend.py 
 
 ### Port forwarding from VM
 Add two port forwarding rules \

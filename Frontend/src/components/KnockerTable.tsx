@@ -8,9 +8,11 @@ export const KnockerTable = () => {
 
     const [knockerValues, setKnockerValues] = useState<Knocker[]>([]);
     const [loading, setLoading] = useState(true);
+    const backendIP = import.meta.env.VITE_BACKEND_IP
+
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch('http://144.39.110.207:5000/data')
+            fetch(`http://${backendIP}:5000/data`)
                 .then(response => response.json())
                 .then((data) => {
                     console.log(Object.values(data)); // Extracts the values from the object
